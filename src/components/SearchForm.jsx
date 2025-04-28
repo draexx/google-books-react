@@ -31,11 +31,8 @@ export default function SearchForm() {
     },
   });
   return (
-    // Contenedor del formulario
     <Box component="form" onSubmit={formik.handleSubmit} mb={3}>
-      // Grid para alinear los elementos del formulario
       <Grid container spacing={2} alignItems="center">
-        // Campo de texto para la búsqueda
         <Grid item xs={8} sm={8} md={8}>
           <TextField
             fullWidth
@@ -48,7 +45,6 @@ export default function SearchForm() {
             helperText={formik.touched.query && formik.errors.query}
           />
         </Grid>
-        // Selector de tipo de búsqueda
         <Grid item xs={4} sm={2} md={2}>
           <TextField
             select
@@ -64,7 +60,6 @@ export default function SearchForm() {
             <option value="isbn">ISBN</option>
           </TextField>
         </Grid>
-        // Botón para enviar el formulario
         <Grid item xs={12} sm={2} md={2}>
           <Button color="primary" variant="contained" fullWidth type="submit">
             Buscar

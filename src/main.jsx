@@ -9,11 +9,9 @@ import { BrowserRouter } from 'react-router-dom'; // Importa el componente Brows
 
 // Crea el elemento raíz de la aplicación y renderiza el componente App
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // Activa el modo estricto de React para detectar problemas potenciales en desarrollo
+
   <React.StrictMode>
-    // Establece el enrutador para la aplicación
     <BrowserRouter>
-      // Renderiza el componente App
       <App />
     </BrowserRouter>
   </React.StrictMode>
