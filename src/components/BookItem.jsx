@@ -6,13 +6,15 @@ import { Card, CardContent, CardMedia, Typography, Button } from '@mui/material'
 import { Link } from 'react-router-dom';
 import { useWishlist } from '../contexts/WishlistContext';
 
+const DEFAULT_BOOK_COVER_URL = 'https://via.placeholder.com/128x200?text=No+Image';
+
 /**
  * Componente BookItem que muestra la información de un libro y permite agregarlo a la lista de deseos.
  * 
  * @param {object} book - Objeto que contiene la información del libro (id, título, autores, imagen de portada)
  * @returns {JSX.Element} Tarjeta del libro con botones para ver detalles y agregar a la lista de deseos
  */
-export default function BookItem({ book }) {
+function BookItem({ book }) {
   // Obtener funciones para agregar y verificar la presencia de un libro en la lista de deseos
   const { addToWishlist, isInWishlist } = useWishlist();
   
@@ -25,8 +27,9 @@ export default function BookItem({ book }) {
       <CardMedia
         component="img"
         height="200"
-        image={thumbnail || 'https://via.placeholder.com/128x200?text=No+Image'}
+        image={thumbnail || DEFAULT_BOOK_COVER_URL}
         alt={title}
+        loading="lazy"
       />
       <CardContent>
         {/* Título del libro */}
@@ -61,3 +64,5 @@ export default function BookItem({ book }) {
     </Card>
   );
 }
+
+export default React.memo(BookItem);
