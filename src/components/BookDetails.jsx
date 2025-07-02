@@ -6,6 +6,8 @@ import { useParams, Link } from 'react-router-dom';
 import { Box, Typography, Button, Chip, CircularProgress } from '@mui/material';
 import axios from 'axios';
 
+const DEFAULT_BOOK_COVER_URL = 'https://via.placeholder.com/128x200?text=No+Image';
+
 /**
  * Componente que muestra los detalles de un libro seleccionado.
  * Utiliza la Google Books API para obtener los datos del libro.
@@ -54,9 +56,10 @@ export default function BookDetails() {
       </Typography>
       {/* Imagen de portada */}
       <img
-        src={book.imageLinks?.thumbnail || 'https://via.placeholder.com/128x200?text=No+Image'}
+        src={book.imageLinks?.thumbnail || DEFAULT_BOOK_COVER_URL}
         alt={book.title}
         style={{ marginBottom: 16 }}
+        loading="lazy"
       />
       {/* Descripción del libro */}
       <Typography gutterBottom>{book.description || 'Sin descripción.'}</Typography>
