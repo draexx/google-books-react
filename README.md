@@ -1,119 +1,119 @@
 # Google Books React App
 
-Aplicación web desarrollada en React que permite buscar libros usando la Google Books API, aplicar filtros, ver detalles y gestionar una lista de deseos persistente.
+A web application developed in React that allows users to search for books using the Google Books API, apply filters, view details, and manage a persistent wishlist.
 
 ---
 
-## Características principales
+## Key Features
 
-- **Búsqueda avanzada**: por título, autor o ISBN.
-- **Resultados en tiempo real**: muestra portada, título y autor.
-- **Detalles completos**: descripción, páginas, categorías, enlaces de compra.
-- **Filtros y ordenamiento**: por relevancia, novedad y categoría.
-- **Lista de deseos**: persistente en localStorage.
-- **Paginación avanzada**.
-- **Validación de formularios** con Formik y Yup.
-- **Gestión de estados complejos** con Context API.
-- **Optimización de renderizado** con React.memo y hooks.
+- **Advanced Search**: by title, author, or ISBN.
+- **Real-time Results**: displays cover, title, and author.
+- **Full Details**: description, page count, categories, purchase links.
+- **Filtering and Sorting**: by relevance, newest, and category.
+- **Persistent Wishlist**: saved in localStorage.
+- **Advanced Pagination**.
+- **Form Validation** with Formik and Yup.
+- **Complex State Management** with Context API.
+- **Render Optimization** with React.memo and hooks.
 
 ---
 
-## Estructura del proyecto
+## Project Structure
 
 ```
 /src
-  components/           # Componentes de UI reutilizables
-    SearchForm.jsx      # Formulario de búsqueda y validación
-    BookList.jsx        # Lista de resultados y paginación
-    BookItem.jsx        # Tarjeta de libro individual
-    BookDetails.jsx     # Vista de detalles de un libro
-    Filters.jsx         # Filtros y ordenamiento
-    Wishlist.jsx        # Lista de deseos del usuario
-  contexts/             # Contextos globales de estado
-    WishlistContext.jsx # Contexto y provider para la lista de deseos
-    BooksContext.jsx    # Contexto y provider para libros, filtros y paginación
-  utils/                # Utilidades y helpers
-    api.js              # Funciones para consultar la Google Books API
-    validation.js       # Validaciones personalizadas
-  App.jsx               # Componente principal y rutas
-  main.jsx              # Punto de entrada de la app
+  components/           # Reusable UI components
+    SearchForm.jsx      # Search form and validation
+    BookList.jsx        # Results list and pagination
+    BookItem.jsx        # Individual book card
+    BookDetails.jsx     # Detailed view of a book
+    Filters.jsx         # Filters and sorting
+    Wishlist.jsx        # User's wishlist
+  contexts/             # Global state contexts
+    WishlistContext.jsx # Context and provider for the wishlist
+    BooksContext.jsx    # Context and provider for books, filters, and pagination
+  utils/                # Utilities and helpers
+    api.js              # Functions to query the Google Books API
+    validation.js       # Custom validations
+  App.jsx               # Main component and routes
+  main.jsx              # App entry point
 ```
 
 ---
 
-## Instalación y uso rápido
+## Quick Start
 
-1. Instala las dependencias:
+1. Install the dependencies:
    ```bash
    npm install
    ```
-2. Inicia el servidor de desarrollo:
+2. Start the development server:
    ```bash
    npm run dev
    ```
-3. Abre [http://localhost:5173](http://localhost:5173) en tu navegador.
+3. Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## Explicación de los principales archivos y componentes
+## Main Files and Components Explained
 
-- **main.jsx**: Punto de entrada. Renderiza el componente principal y configura el enrutamiento.
-- **App.jsx**: Define la estructura general, los contextos y las rutas principales.
-- **contexts/BooksContext.jsx**: Maneja la búsqueda, filtros, paginación y estado global de los libros.
-- **contexts/WishlistContext.jsx**: Gestiona la lista de deseos y su persistencia en localStorage.
-- **components/SearchForm.jsx**: Formulario avanzado de búsqueda con validación.
-- **components/BookList.jsx**: Muestra los resultados, permite paginar y aplicar filtros.
-- **components/BookItem.jsx**: Tarjeta de libro, permite ver detalles y agregar a deseos.
-- **components/BookDetails.jsx**: Vista de detalles ampliados de un libro.
-- **components/Filters.jsx**: Permite filtrar y ordenar los resultados.
-- **components/Wishlist.jsx**: Visualiza y permite eliminar libros de la lista de deseos.
-- **utils/api.js**: Función para consultar la Google Books API y mapear resultados.
-
----
-
-## Ejemplos de uso
-
-A continuación se muestran ejemplos visuales del funcionamiento de la aplicación:
-
-### 1. Búsqueda de libros
-
-![Ejemplo de búsqueda](docs/example-search.png)
-
-### 2. Lista de resultados y filtros
-
-![Resultados y filtros](docs/example-results.png)
-
-### 3. Detalles de un libro
-
-![Detalles del libro](docs/example-details.png)
-
-### 4. Lista de deseos
-
-![Lista de deseos](docs/example-wishlist.png)
+- **main.jsx**: Entry point. Renders the main component and sets up routing.
+- **App.jsx**: Defines the general structure, contexts, and main routes.
+- **contexts/BooksContext.jsx**: Manages search, filters, pagination, and the global state of books.
+- **contexts/WishlistContext.jsx**: Manages the wishlist and its persistence in localStorage.
+- **components/SearchForm.jsx**: Advanced search form with validation.
+- **components/BookList.jsx**: Displays results, allows pagination and filtering.
+- **components/BookItem.jsx**: Book card, allows viewing details and adding to the wishlist.
+- **components/BookDetails.jsx**: Expanded details view of a book.
+- **components/Filters.jsx**: Allows filtering and sorting of results.
+- **components/Wishlist.jsx**: Displays and allows removing books from the wishlist.
+- **utils/api.js**: Function to query the Google Books API and map results.
 
 ---
 
-## Ejemplos de código
+## Usage Examples
 
-A continuación se muestran ejemplos de uso de los contextos y componentes principales del proyecto:
+Below are visual examples of the application's functionality:
 
-### Uso del contexto de libros (BooksContext)
+### 1. Book Search
+
+![Search Example](docs/example-search.png)
+
+### 2. Results List and Filters
+
+![Results and Filters](docs/example-results.png)
+
+### 3. Book Details
+
+![Book Details](docs/example-details.png)
+
+### 4. Wishlist
+
+![Wishlist](docs/example-wishlist.png)
+
+---
+
+## Code Examples
+
+Here are some examples of how to use the main contexts and components of the project:
+
+### Using the BooksContext
 
 ```jsx
 import { useBooks } from './contexts/BooksContext';
 
-function BuscarLibro() {
+function SearchForBook() {
   const { searchBooks, books, loading } = useBooks();
   
-  // Ejemplo de búsqueda por título
-  const handleBuscar = () => {
+  // Example: search by title
+  const handleSearch = () => {
     searchBooks({ query: 'React', type: 'intitle' });
   };
 
   return (
     <div>
-      <button onClick={handleBuscar}>Buscar "React"</button>
-      {loading && <span>Cargando...</span>}
+      <button onClick={handleSearch}>Search for "React"</button>
+      {loading && <span>Loading...</span>}
       <ul>
         {books.map(book => (
           <li key={book.id}>{book.title}</li>
@@ -124,26 +124,26 @@ function BuscarLibro() {
 }
 ```
 
-### Uso del contexto de lista de deseos (WishlistContext)
+### Using the WishlistContext
 
 ```jsx
 import { useWishlist } from './contexts/WishlistContext';
 
-function Deseos() {
+function Wishlist() {
   const { wishlist, addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
-  // Ejemplo: agregar un libro
-  const libro = { id: '123', title: 'Mi Libro', authors: ['Autor'] };
+  // Example: add a book
+  const book = { id: '123', title: 'My Book', authors: ['Author'] };
   return (
     <div>
-      <button onClick={() => addToWishlist(libro)} disabled={isInWishlist(libro.id)}>
-        {isInWishlist(libro.id) ? 'En lista de deseos' : 'Agregar a deseos'}
+      <button onClick={() => addToWishlist(book)} disabled={isInWishlist(book.id)}>
+        {isInWishlist(book.id) ? 'In Wishlist' : 'Add to Wishlist'}
       </button>
       <ul>
         {wishlist.map(book => (
           <li key={book.id}>
             {book.title}
-            <button onClick={() => removeFromWishlist(book.id)}>Eliminar</button>
+            <button onClick={() => removeFromWishlist(book.id)}>Remove</button>
           </li>
         ))}
       </ul>
@@ -152,7 +152,7 @@ function Deseos() {
 }
 ```
 
-### Ejemplo de integración de componentes
+### Component Integration Example
 
 ```jsx
 import SearchForm from './components/SearchForm';
@@ -172,19 +172,27 @@ function HomePage() {
 
 ---
 
-## Personalización y mejoras
+## Customization and Improvements
 
-- Puedes agregar autenticación para que la lista de deseos sea multiusuario (requiere backend).
-- Puedes cambiar el diseño usando otros frameworks de UI como Chakra UI, Bootstrap, etc.
-- Puedes agregar tests con Jest y React Testing Library.
-- Puedes desplegar la app fácilmente en Vercel, Netlify, etc.
+- You can add authentication for multi-user wishlists (requires a backend).
+- You can change the design using other UI frameworks like Chakra UI, Bootstrap, etc.
+- You can add tests with Jest and React Testing Library.
+- You can easily deploy the app to Vercel, Netlify, etc.
+
+## Proposed Improvements
+
+The following improvements have been made to the codebase:
+
+- **Optimized `BooksContext.jsx`**: The logic for filtering books by category has been moved to the client side to avoid unnecessary API calls, improving performance. The data fetching logic in the `useEffect` hook has been made more robust and reliable.
+- **Translated Code Comments**: All code comments have been translated from Spanish to English to improve code readability and maintainability for a wider audience.
+- **Updated `README.md`**: This `README.md` has been translated to English, and the image links have been fixed.
 
 ---
 
-## Licencia
+## License
 
 MIT
 
 ---
 
-¿Dudas o sugerencias? ¡Contribuye o abre un issue!
+Questions or suggestions? Contribute or open an issue!

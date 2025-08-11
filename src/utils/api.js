@@ -1,25 +1,25 @@
-// Funciones utilitarias para interactuar con la Google Books API
-// Incluye la función principal de búsqueda de libros
+// Utility functions for interacting with the Google Books API.
+// Includes the main function for searching books.
 
 import axios from 'axios';
 
-// Realiza una búsqueda de libros en la Google Books API
-// Parámetros: query (texto), type (intitle, inauthor, isbn), sort, page
-// Devuelve un objeto con los libros y el total de resultados
+// Performs a book search on the Google Books API.
+// Parameters: query (text), type (intitle, inauthor, isbn), sort, page.
+// Returns an object with the books and the total number of results.
 export async function searchBooksApi({ query, type, sort = 'relevance', page = 1 }) {
-  // Calcula el índice de inicio para la paginación
+  // Calculate the start index for pagination.
   const startIndex = (page - 1) * 12;
-  
-  // Construye la URL de la petición a la API
+
+  // Build the API request URL.
   const url = `https://www.googleapis.com/books/v1/volumes?q=${type}:${encodeURIComponent(query)}&orderBy=${sort}&startIndex=${startIndex}&maxResults=12`;
-  
-  // Realiza la petición GET a la API
+
+  // Make the GET request to the API.
   const res = await axios.get(url);
-  
-  // Extrae los resultados de la respuesta
+
+  // Extract the results from the response.
   const items = res.data.items || [];
-  
-  // Mapea los resultados a objetos de libro
+
+  // Map the results to book objects.
   const books = items.map(item => {
     const info = item.volumeInfo;
     return {
@@ -30,7 +30,7 @@ export async function searchBooksApi({ query, type, sort = 'relevance', page = 1
       categories: info.categories,
     };
   });
-  
-  // Devuelve los libros y el total de resultados
+
+  // Return the books and the total number of results.
   return { books, totalItems: res.data.totalItems || 0 };
 }

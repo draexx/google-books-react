@@ -1,6 +1,6 @@
-// Componente principal de la aplicación
-// Proporciona los contextos globales de libros y lista de deseos
-// Define las rutas principales y la estructura general de la UI
+// Main application component.
+// Provides global contexts for books and wishlist.
+// Defines the main routes and the overall UI structure.
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
@@ -14,31 +14,31 @@ import { BooksProvider } from './contexts/BooksContext';
 
 export default function App() {
   return (
-    // Proveedor de contexto para los datos de libros y filtros
+    // Context provider for book data and filters.
     <BooksProvider>
-      {/* Proveedor de contexto para la lista de deseos */}
+      {/* Context provider for the wishlist. */}
       <WishlistProvider>
-        {/* Estilos base de Material UI */}
+        {/* Base styles from Material UI. */}
         <CssBaseline />
         <Container maxWidth="md">
-          {/* Título de la aplicación */}
+          {/* Application title. */}
           <Typography variant="h3" align="center" gutterBottom>
             Google Books React
           </Typography>
-          {/* Definición de rutas principales */}
+          {/* Definition of main routes. */}
           <Routes>
-            {/* Ruta principal: búsqueda, resultados y lista de deseos */}
+            {/* Main route: search, results, and wishlist. */}
             <Route path="/" element={
               <>
-                {/* Formulario de búsqueda */}
+                {/* Search form component. */}
                 <SearchForm />
-                {/* Lista de resultados de búsqueda */}
+                {/* Search results list component. */}
                 <BookList />
-                {/* Lista de deseos */}
+                {/* Wishlist component. */}
                 <Wishlist />
               </>
             } />
-            {/* Ruta de detalles de libro */}
+            {/* Book details route. */}
             <Route path="/book/:id" element={<BookDetails />} />
           </Routes>
         </Container>

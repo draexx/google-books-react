@@ -1,6 +1,6 @@
-// Contexto para la gestión global de la lista de deseos
-// Proporciona funciones para agregar, eliminar y consultar libros en la lista de deseos
-// Persiste la lista en localStorage
+// Context for global wishlist management.
+// Provides functions to add, remove, and query books in the wishlist.
+// Persists the wishlist in localStorage.
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
@@ -9,28 +9,30 @@ const WishlistContext = createContext();
 export function WishlistProvider({ children }) {
   const [wishlist, setWishlist] = useState([]);
 
-  // Cargar la lista de deseos desde localStorage al iniciar
+  // Load wishlist from localStorage on initial render.
   useEffect(() => {
     const stored = localStorage.getItem('wishlist');
     if (stored) setWishlist(JSON.parse(stored));
   }, []);
 
-  // Guardar la lista de deseos en localStorage cuando cambie
+  // Save wishlist to localStorage whenever it changes.
   useEffect(() => {
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
 
-  // Agregar libro a la lista de deseos
+  // Add a book to the wishlist.
   const addToWishlist = (book) => {
     if (!wishlist.find((b) => b.id === book.id)) {
       setWishlist([...wishlist, book]);
     }
   };
-  // Eliminar libro de la lista de deseos
+
+  // Remove a book from the wishlist.
   const removeFromWishlist = (id) => {
     setWishlist(wishlist.filter((b) => b.id !== id));
   };
-  // Verificar si un libro está en la lista de deseos
+
+  // Check if a book is in the wishlist.
   const isInWishlist = (id) => wishlist.some((b) => b.id === id);
 
   return (
@@ -40,7 +42,7 @@ export function WishlistProvider({ children }) {
   );
 }
 
-// Hook personalizado para usar el contexto de lista de deseos
+// Custom hook to use the wishlist context.
 export function useWishlist() {
   return useContext(WishlistContext);
 }

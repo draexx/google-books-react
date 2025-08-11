@@ -1,38 +1,38 @@
-// Componente para filtros y ordenamiento de la lista de libros
-// Permite seleccionar categoría y orden de los resultados
+// Component for filtering and sorting the book list.
+// Allows selecting the category and order of the results.
 
 import React from 'react';
 import { Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useBooks } from '../contexts/BooksContext';
 
 /**
- * Componente de filtros que permite al usuario seleccionar el orden y la categoría de los libros.
- * Utiliza el contexto de libros para obtener y actualizar los valores de orden y categoría.
+ * Filters component that allows the user to select the order and category of the books.
+ * Uses the books context to get and update the sort and category values.
  */
 export default function Filters() {
-  // Obtener los valores de orden, categoría y funciones para actualizarlos desde el contexto de libros
+  // Get sort and category values and functions to update them from the books context.
   const { sort, setSort, categories, filterCategory, setFilterCategory } = useBooks();
-  
+
   return (
-    // Contenedor flexible para alinear los selectores de orden y categoría
+    // Flex container to align the sort and category selectors.
     <Box display="flex" gap={2} mb={2}>
-      {/* Selector de ordenamiento */}
+      {/* Sort selector. */}
       <FormControl size="small">
-        <InputLabel>Ordenar</InputLabel>
-        <Select value={sort} label="Ordenar" onChange={e => setSort(e.target.value)}>
-          <MenuItem value="relevance">Relevancia</MenuItem>
-          <MenuItem value="newest">Más nuevo</MenuItem>
+        <InputLabel>Sort</InputLabel>
+        <Select value={sort} label="Sort" onChange={e => setSort(e.target.value)}>
+          <MenuItem value="relevance">Relevance</MenuItem>
+          <MenuItem value="newest">Newest</MenuItem>
         </Select>
       </FormControl>
-      {/* Selector de categoría */}
+      {/* Category selector. */}
       <FormControl size="small">
-        <InputLabel>Categoría</InputLabel>
+        <InputLabel>Category</InputLabel>
         <Select
           value={filterCategory}
-          label="Categoría"
+          label="Category"
           onChange={e => setFilterCategory(e.target.value)}
         >
-          <MenuItem value="">Todas</MenuItem>
+          <MenuItem value="">All</MenuItem>
           {categories.map(cat => (
             <MenuItem key={cat} value={cat}>{cat}</MenuItem>
           ))}
