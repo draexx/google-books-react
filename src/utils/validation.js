@@ -1,2 +1,2 @@
-// Archivo para validaciones personalizadas de formularios
-// Puedes agregar aquí funciones de validación adicionales si lo necesitas
+// File for custom form validations.
+// You can add additional validation functions here if needed.

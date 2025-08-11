@@ -1,13 +1,13 @@
-// Punto de entrada principal de la aplicación React
-// Renderiza el componente App dentro de un Router para habilitar rutas
-// Utiliza React.StrictMode para detectar problemas potenciales en desarrollo
+// Main entry point for the React application.
+// Renders the App component within a Router to enable routing.
+// Uses React.StrictMode to detect potential problems in development.
 
-import React from 'react'; // Importa la biblioteca React
-import ReactDOM from 'react-dom/client'; // Importa el cliente de React DOM
-import App from './App'; // Importa el componente principal de la aplicación
-import { BrowserRouter } from 'react-router-dom'; // Importa el componente BrowserRouter para habilitar rutas
+import React from 'react'; // Imports the React library
+import ReactDOM from 'react-dom/client'; // Imports the React DOM client
+import App from './App'; // Imports the main application component
+import { BrowserRouter } from 'react-router-dom'; // Imports the BrowserRouter component to enable routing
 
-// Crea el elemento raíz de la aplicación y renderiza el componente App
+// Creates the root element of the application and renders the App component.
 ReactDOM.createRoot(document.getElementById('root')).render(
 
   <React.StrictMode>

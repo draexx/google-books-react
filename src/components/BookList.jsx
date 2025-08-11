@@ -1,5 +1,5 @@
-// Componente para mostrar la lista de resultados de libros
-// Incluye filtros, paginación y manejo de estados de carga y error
+// Component to display the list of book results.
+// Includes filters, pagination, and handling of loading and error states.
 
 import React from 'react';
 import { useBooks } from '../contexts/BooksContext';
@@ -8,28 +8,28 @@ import Filters from './Filters';
 import { Box, Typography, Grid, Pagination } from '@mui/material';
 
 export default function BookList() {
-  // Obtiene los datos de libros, estado de carga, error, página actual y total de páginas del contexto de libros
+  // Gets book data, loading state, error, current page, and total pages from the books context.
   const { books, loading, error, page, totalPages, setPage } = useBooks();
 
   return (
     <Box mb={3}>
-      {/* Filtros y ordenamiento */}
+      {/* Filters and sorting component. */}
       <Filters />
-      {/* Estado de carga */}
-      {loading && <Typography>Cargando...</Typography>}
-      {/* Estado de error */}
+      {/* Loading state. */}
+      {loading && <Typography>Loading...</Typography>}
+      {/* Error state. */}
       {error && <Typography color="error">{error}</Typography>}
-      {/* Sin resultados */}
-      {!loading && books.length === 0 && <Typography>No se encontraron resultados.</Typography>}
+      {/* No results state. */}
+      {!loading && books.length === 0 && <Typography>No results found.</Typography>}
       <Grid container spacing={2}>
-        {/* Renderiza cada libro */}
+        {/* Renders each book. */}
         {books.map((book) => (
           <Grid item xs={12} sm={6} md={4} key={book.id}>
             <BookItem book={book} />
           </Grid>
         ))}
       </Grid>
-      {/* Paginación de resultados */}
+      {/* Results pagination. */}
       {totalPages > 1 && (
         <Box display="flex" justifyContent="center" mt={2}>
           <Pagination

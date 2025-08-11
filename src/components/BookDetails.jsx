@@ -1,5 +1,5 @@
-// Componente para mostrar los detalles completos de un libro seleccionado
-// Obtiene los datos de la Google Books API usando el ID del libro
+// Component to display the full details of a selected book.
+// Fetches data from the Google Books API using the book ID.
 
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
@@ -9,19 +9,19 @@ import axios from 'axios';
 const DEFAULT_BOOK_COVER_URL = 'https://via.placeholder.com/128x200?text=No+Image';
 
 /**
- * Componente que muestra los detalles de un libro seleccionado.
- * Utiliza la Google Books API para obtener los datos del libro.
+ * Component that displays the details of a selected book.
+ * Uses the Google Books API to fetch the book data.
  */
 export default function BookDetails() {
-  // Obtiene el ID del libro de la URL
+  // Get the book ID from the URL.
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   /**
-   * Efecto que se ejecuta cuando el componente se monta o se actualiza.
-   * Llama a la Google Books API para obtener detalles del libro.
+   * Effect that runs when the component mounts or updates.
+   * Calls the Google Books API to get book details.
    */
   useEffect(() => {
     setLoading(true);
@@ -31,55 +31,55 @@ export default function BookDetails() {
         setLoading(false);
       })
       .catch(() => {
-        setError('No se pudo cargar el libro.');
+        setError('Could not load the book.');
         setLoading(false);
       });
   }, [id]);
 
-  // Muestra un indicador de carga mientras se obtienen los datos
+  // Display a loading indicator while fetching data.
   if (loading) return <CircularProgress />;
-  // Muestra un mensaje de error si no se pueden obtener los datos
+  // Display an error message if data cannot be fetched.
   if (error) return <Typography color="error">{error}</Typography>;
-  // Muestra un mensaje si no se ha obtenido información del libro
+  // Display nothing if no book information has been obtained.
   if (!book) return null;
 
   return (
     <Box mt={4}>
-      {/* Botón para volver a la página principal */}
+      {/* Button to go back to the main page. */}
       <Button component={Link} to="/" variant="outlined" sx={{ mb: 2 }}>
-        Volver
+        Go Back
       </Button>
-      {/* Título y autores */}
+      {/* Title and authors. */}
       <Typography variant="h4" gutterBottom>{book.title}</Typography>
       <Typography variant="subtitle1" gutterBottom>
-        {book.authors?.join(', ') || 'Autor desconocido'}
+        {book.authors?.join(', ') || 'Unknown author'}
       </Typography>
-      {/* Imagen de portada */}
+      {/* Cover image. */}
       <img
         src={book.imageLinks?.thumbnail || DEFAULT_BOOK_COVER_URL}
         alt={book.title}
         style={{ marginBottom: 16 }}
         loading="lazy"
       />
-      {/* Descripción del libro */}
-      <Typography gutterBottom>{book.description || 'Sin descripción.'}</Typography>
-      {/* Número de páginas */}
-      <Typography variant="body2">Páginas: {book.pageCount || 'N/D'}</Typography>
-      {/* Categorías del libro */}
+      {/* Book description. */}
+      <Typography gutterBottom>{book.description || 'No description.'}</Typography>
+      {/* Page count. */}
+      <Typography variant="body2">Pages: {book.pageCount || 'N/A'}</Typography>
+      {/* Book categories. */}
       <Box mt={1} mb={2}>
         {book.categories?.map((cat) => (
           <Chip key={cat} label={cat} sx={{ mr: 1 }} />
         ))}
       </Box>
-      {/* Enlaces de información y compra */}
+      {/* Info and purchase links. */}
       {book.infoLink && (
         <Button href={book.infoLink} target="_blank" rel="noopener" variant="contained" sx={{ mr: 2 }}>
-          Más información
+          More Info
         </Button>
       )}
       {book.canonicalVolumeLink && (
         <Button href={book.canonicalVolumeLink} target="_blank" rel="noopener" variant="outlined">
-          Comprar
+          Buy
         </Button>
       )}
     </Box>

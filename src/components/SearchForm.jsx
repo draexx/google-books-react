@@ -1,6 +1,6 @@
-// Componente de formulario de búsqueda de libros
-// Permite buscar por título, autor o ISBN usando la Google Books API
-// Utiliza Formik y Yup para manejo y validación de formularios
+// Book search form component.
+// Allows searching by title, author, or ISBN using the Google Books API.
+// Uses Formik and Yup for form handling and validation.
 
 import React from 'react';
 import { useFormik } from 'formik';
@@ -8,24 +8,24 @@ import * as yup from 'yup';
 import { Box, Button, TextField, Grid } from '@mui/material';
 import { useBooks } from '../contexts/BooksContext';
 
-// Esquema de validación para el formulario
-// Requiere un campo de texto para la búsqueda y un selector de tipo de búsqueda
+// Validation schema for the form.
+// Requires a text field for the search query and a selector for the search type.
 const validationSchema = yup.object({
-  query: yup.string().required('Campo requerido'),
+  query: yup.string().required('Field is required'),
   type: yup.string().oneOf(['intitle', 'inauthor', 'isbn']).required(),
 });
 
-// Función principal del componente
-// Utiliza el hook useFormik para manejar el estado del formulario
-// y el hook useBooks para acceder al contexto de libros
+// Main component function.
+// Uses the useFormik hook to manage the form state
+// and the useBooks hook to access the books context.
 export default function SearchForm() {
   const { searchBooks } = useBooks();
   const formik = useFormik({
-    // Valores iniciales del formulario
+    // Initial form values.
     initialValues: { query: '', type: 'intitle' },
-    // Esquema de validación
+    // Validation schema.
     validationSchema,
-    // Función de envío del formulario
+    // Form submission function.
     onSubmit: (values) => {
       searchBooks(values);
     },
@@ -38,7 +38,7 @@ export default function SearchForm() {
             fullWidth
             id="query"
             name="query"
-            label="Buscar libro (título, autor o ISBN)"
+            label="Search for a book (title, author, or ISBN)"
             value={formik.values.query}
             onChange={formik.handleChange}
             error={formik.touched.query && Boolean(formik.errors.query)}
@@ -50,19 +50,19 @@ export default function SearchForm() {
             select
             id="type"
             name="type"
-            label="Tipo"
+            label="Type"
             value={formik.values.type}
             onChange={formik.handleChange}
             SelectProps={{ native: true }}
           >
-            <option value="intitle">Título</option>
-            <option value="inauthor">Autor</option>
+            <option value="intitle">Title</option>
+            <option value="inauthor">Author</option>
             <option value="isbn">ISBN</option>
           </TextField>
         </Grid>
         <Grid item xs={12} sm={2} md={2}>
           <Button color="primary" variant="contained" fullWidth type="submit">
-            Buscar
+            Search
           </Button>
         </Grid>
       </Grid>

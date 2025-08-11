@@ -1,5 +1,5 @@
-// Componente para mostrar la lista de deseos del usuario
-// Permite eliminar libros de la lista de deseos
+// Component to display the user's wishlist.
+// Allows removing books from the wishlist.
 
 import React from 'react';
 import { useWishlist } from '../contexts/WishlistContext';
@@ -7,39 +7,39 @@ import { Box, Typography, List, ListItem, ListItemText, IconButton } from '@mui/
 import DeleteIcon from '@mui/icons-material/Delete';
 
 /**
- * Componente Wishlist: muestra la lista de deseos del usuario y permite eliminar libros.
- * 
- * Utiliza el contexto WishlistContext para obtener la lista de deseos y la función para eliminar libros.
- * 
- * Si la lista de deseos está vacía, no se renderiza nada.
+ * Wishlist component: displays the user's wishlist and allows removing books.
+ *
+ * Uses the WishlistContext to get the wishlist and the function to remove books.
+ *
+ * If the wishlist is empty, nothing is rendered.
  */
 export default function Wishlist() {
-  // Obtener la lista de deseos y la función para eliminar libros del contexto WishlistContext
+  // Get the wishlist and the function to remove books from the WishlistContext.
   const { wishlist, removeFromWishlist } = useWishlist();
 
-  // Si la lista de deseos está vacía, no se renderiza nada
+  // If the wishlist is empty, render nothing.
   if (wishlist.length === 0) return null;
 
   return (
-    // Contenedor principal con margen superior e inferior
+    // Main container with top and bottom margin.
     <Box mt={4} mb={2}>
-      {/* Título de la sección */}
-      <Typography variant="h5" gutterBottom>Lista de deseos</Typography>
-      {/* Lista de libros */}
+      {/* Section title. */}
+      <Typography variant="h5" gutterBottom>Wishlist</Typography>
+      {/* List of books. */}
       <List>
-        {/* Renderiza cada libro en la lista de deseos */}
+        {/* Renders each book in the wishlist. */}
         {wishlist.map(book => (
-          // Elemento de la lista con acción secundaria para eliminar el libro
+          // List item with a secondary action to delete the book.
           <ListItem key={book.id} secondaryAction={
-            // Botón para eliminar el libro
+            // Button to delete the book.
             <IconButton edge="end" aria-label="delete" onClick={() => removeFromWishlist(book.id)}>
               <DeleteIcon />
             </IconButton>
           }>
-            {/* Información del libro */}
+            {/* Book information. */}
             <ListItemText
               primary={book.title}
-              secondary={book.authors?.join(', ') || 'Autor desconocido'}
+              secondary={book.authors?.join(', ') || 'Unknown author'}
             />
           </ListItem>
         ))}

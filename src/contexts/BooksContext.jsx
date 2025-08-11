@@ -1,103 +1,92 @@
-// Contexto global para la gestión de libros, filtros y paginación
-// Proporciona funciones para buscar libros, filtrar, ordenar y paginar resultados
+// Global context for managing books, filters, and pagination.
+// Provides functions to search, filter, sort, and paginate book results.
 
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
 import { searchBooksApi } from '../utils/api';
 
 const BooksContext = createContext();
 
 /**
- * Proveedor del contexto de libros
- * 
- * @param {Object} props 
- * @param {React.ReactNode} props.children 
+ * Provider for the books context.
+ * @param {object} props
+ * @param {React.ReactNode} props.children
  */
 export function BooksProvider({ children }) {
-  // Estado para almacenar los libros
-  const [books, setBooks] = useState([]);
-  
-  // Estado para almacenar las categorías de libros
+  // State for the raw list of books fetched from the API
+  const [allBooks, setAllBooks] = useState([]);
+  // State for the books that are displayed after filtering
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  // State for book categories
   const [categories, setCategories] = useState([]);
-  
-  // Estado para almacenar el orden de los libros
+  // State for sorting order
   const [sort, setSort] = useState('relevance');
-  
-  // Estado para almacenar la categoría de filtro
+  // State for the selected filter category
   const [filterCategory, setFilterCategory] = useState('');
-  
-  // Estado para indicar si se está cargando
+  // State for loading indicator
   const [loading, setLoading] = useState(false);
-  
-  // Estado para almacenar el error
+  // State for error messages
   const [error, setError] = useState(null);
-  
-  // Estado para almacenar la página actual
+  // State for the current page
   const [page, setPage] = useState(1);
-  
-  // Estado para almacenar el total de páginas
+  // State for the total number of pages
   const [totalPages, setTotalPages] = useState(1);
-  
-  // Estado para almacenar la última consulta
+  // State for the last search query
   const [lastQuery, setLastQuery] = useState(null);
 
   /**
-   * Función para buscar libros usando la API
-   * 
-   * @param {Object} params 
-   * @param {string} params.query 
-   * @param {string} params.type 
+   * Triggers a new book search by updating the query parameters.
+   * The actual fetching is handled by a useEffect hook.
+   * @param {object} params
+   * @param {string} params.query
+   * @param {string} params.type
    */
-  const searchBooks = async ({ query, type }) => {
-    setLoading(true);
-    setError(null);
+  const searchBooks = ({ query, type }) => {
     setPage(1);
+    setFilterCategory('');
     setLastQuery({ query, type });
-    try {
-      const { books: results, totalItems } = await searchBooksApi({ query, type, sort, page: 1 });
-      setBooks(results);
-      setTotalPages(Math.ceil(totalItems / 12));
-      const cats = Array.from(new Set(results.flatMap(b => b.categories || [])));
-      setCategories(cats);
-    } catch (err) {
-      setError('Error al buscar libros');
-      setBooks([]);
-      setCategories([]);
-      setTotalPages(1);
-    }
-    setLoading(false);
   };
 
-  /**
-   * Actualiza los libros cuando cambian filtros, orden o página
-   */
-  React.useEffect(() => {
+  // Effect to fetch books when the query, page, or sort order changes.
+  useEffect(() => {
     if (!lastQuery) return;
-    setLoading(true);
-    searchBooksApi({ ...lastQuery, sort, page }).then(({ books: results, totalItems }) => {
-      let filtered = results;
-      if (filterCategory) {
-        filtered = filtered.filter(b => b.categories?.includes(filterCategory));
-      }
-      setBooks(filtered);
-      setTotalPages(Math.ceil(totalItems / 12));
-      const cats = Array.from(new Set(results.flatMap(b => b.categories || [])));
-      setCategories(cats);
-      setLoading(false);
-    }).catch(() => {
-      setError('Error al buscar libros');
-      setBooks([]);
-      setCategories([]);
-      setTotalPages(1);
-      setLoading(false);
-    });
-    // eslint-disable-next-line
-  }, [sort, page, filterCategory]);
 
-  /**
-   * Valor del contexto
-   */
+    const fetchBooks = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const { books: results, totalItems } = await searchBooksApi({ ...lastQuery, sort, page });
+        setAllBooks(results);
+        // Set categories from the first page of a new search.
+        if (page === 1) {
+          const cats = Array.from(new Set(results.flatMap(b => b.categories || []).filter(Boolean)));
+          setCategories(cats);
+        }
+        setTotalPages(Math.ceil(totalItems / 12));
+      } catch (err) {
+        setError('Error searching for books');
+        setAllBooks([]);
+        setCategories([]);
+        setTotalPages(1);
+      }
+      setLoading(false);
+    };
+
+    fetchBooks();
+  }, [lastQuery, page, sort]);
+
+  // Effect to filter books on the client side when the category filter changes.
+  useEffect(() => {
+    if (filterCategory) {
+      const filtered = allBooks.filter(book => book.categories?.includes(filterCategory));
+      setFilteredBooks(filtered);
+    } else {
+      setFilteredBooks(allBooks);
+    }
+  }, [filterCategory, allBooks]);
+
+  // Memoized context value to prevent unnecessary re-renders.
   const value = useMemo(() => ({
-    books,
+    books: filteredBooks,
     categories,
     sort,
     setSort,
@@ -109,13 +98,13 @@ export function BooksProvider({ children }) {
     setPage,
     totalPages,
     searchBooks,
-  }), [books, categories, sort, filterCategory, loading, error, page, totalPages]);
+  }), [filteredBooks, categories, sort, filterCategory, loading, error, page, totalPages]);
 
-  return <BooksContext.Provider value={value}>{children}</BooksContext.Provider>;
+  return <BooksContext.Provider value={value}>{children}</Books.Context.Provider>;
 }
 
 /**
- * Hook personalizado para usar el contexto de libros
+ * Custom hook to use the books context.
  */
 export function useBooks() {
   return useContext(BooksContext);
